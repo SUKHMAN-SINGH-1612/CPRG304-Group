@@ -76,4 +76,13 @@ public abstract class Appliance
 		this.price = price;
 	}
 	
+	// toString method
+	
+	@Override
+	public String toString()
+	{
+		return "\nItemNumber: " + itemNumber + "\nBrand: " + brand + "\nQuantity: " + quantity + "\nWattage: " + wattage +
+                "\nColor: " + color + "\nPrice: " + price;
+	}
+	
 }
