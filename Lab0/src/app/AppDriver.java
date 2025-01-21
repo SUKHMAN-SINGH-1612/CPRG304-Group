@@ -81,9 +81,13 @@ public class AppDriver {
                         appliances.add(new Microwave(itemNumber, brand, quantity, wattage, color, price, capacity, roomType));
                         break;
                     case 4: // Dishwasher
-                    case 5:
                         String feature = data[6];
                         String soundRating = data[7];
+                        appliances.add(new Dishwasher(itemNumber, brand, quantity, wattage, color, price, feature, soundRating));
+                        break;
+                    case 5: // Dishwasher
+                        feature = data[6];
+                        soundRating = data[7];
                         appliances.add(new Dishwasher(itemNumber, brand, quantity, wattage, color, price, feature, soundRating));
                         break;
                     default:
