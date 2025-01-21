@@ -1,4 +1,0 @@
-111;Mickey Mouse;0.0
-211;Minnie Mouse;2.0
-123;Donald Duck;1.0
-222;Pluto;3.0
