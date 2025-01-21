@@ -39,7 +39,7 @@ public class Refrigerator extends Appliance
 	
 	// Constructor
 	
-	public Refrigerator(double itemNumber, String brand, double quantity, double wattage, String color, double price,
+	public Refrigerator(long itemNumber, String brand, double quantity, double wattage, String color, double price,
 			double numberOfDoors, double height, double width)
 	{
 		super(itemNumber, brand, quantity, wattage, color, price);

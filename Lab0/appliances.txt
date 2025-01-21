@@ -1,0 +1,25 @@
+1.893602E8;Bosch;174.0;60.0;black;2000.0;2.0;62.0;29.0
+5.35981394E8;Tefal;89.0;700.0;bronze;320.0;Third Rack;Qt
+5.16089502E8;Hoover;240.0;1200.0;silver;250.0;Finger Print Resistant;Qr
+2.55131796E8;Black & Decker;55.0;1500.0;white;500.0;Residential;18.0
+2.54565387E8;Miele;86.0;1000.0;grey;800.0;Commercial;24.0
+5.71522655E8;Philips;228.0;440.0;grey;390.0;Finger Print Resistant;M
+2.63788832E8;Hoover;59.0;600.0;black;750.0;Residential;18.0
+4.08018499E8;Bosch;54.0;500.0;white;250.0;Third Rack;Qu
+1.43826003E8;Kenwood;0.0;4700.0;silver;1500.0;2.0;62.0;32.0
+2.3178469E8;Russell Hobbs;155.0;175.0;grey;380.0;Residential;18.0
+2.43074424E8;Tefal;61.0;4000.0;black;760.0;Residential;18.0
+2.97972916E8;Dyson;104.0;1400.0;bronze;530.0;Commercial;24.0
+1.46947171E8;Black & Decker;112.0;1800.0;grey;1800.0;3.0;70.0;31.0
+3.02618394E8;Hoover;159.0;100.0;white;99.99;1.1;K
+4.93374445E8;Philips;125.0;1650.0;silver;510.0;Clean with Steam;M
+3.83477937E8;Miele;201.0;2350.0;white;179.9;1.8;K
+1.19638199E8;Vax;134.0;1200.0;black;2650.0;4.0;66.0;29.0
+2.44733872E8;Bosch;133.0;700.0;grey;430.0;Commercial;24.0
+5.87065284E8;Kenwood;74.0;1010.0;silver;430.0;Clean with Steam;Qu
+2.40201796E8;Dyson;81.0;1050.0;white;290.0;Residential;18.0
+1.72911121E8;Philips;144.0;700.0;black;3100.0;3.0;71.0;30.0
+3.28237584E8;Miele;90.0;1200.0;bronze;250.23;2.1;W
+1.18963476E8;Russell Hobbs;146.0;1150.0;grey;2360.0;4.0;73.0;32.0
+3.33607621E8;Vax;113.0;440.0;silver;123.99;1.6;W
+2.74807482E8;Black & Decker;30.0;1800.0;black;375.0;Commercial;24.0

@@ -29,7 +29,7 @@ public class Vacuum extends Appliance
 	
 	// Constructor
 	
-	public Vacuum(double itemNumber, String brand, double quantity, double wattage, String color, double price,
+	public Vacuum(long itemNumber, String brand, double quantity, double wattage, String color, double price,
 			String grade, double batteryVoltage)
 	{
 		super(itemNumber, brand, quantity, wattage, color, price);

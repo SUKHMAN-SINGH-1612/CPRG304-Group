@@ -29,7 +29,7 @@ public class Dishwasher extends Appliance
 	
 	// Constructor
 	
-	public Dishwasher(double itemNumber, String brand, double quantity, double wattage, String color, double price,
+	public Dishwasher(long itemNumber, String brand, double quantity, double wattage, String color, double price,
 			String feature, String soundRating)
 	{
 		super(itemNumber, brand, quantity, wattage, color, price);

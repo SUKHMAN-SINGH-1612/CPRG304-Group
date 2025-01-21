@@ -28,7 +28,7 @@ public class Microwave extends Appliance
 	
 	// Constructor
 	
-	public Microwave(double itemNumber, String brand, double quantity, double wattage, String color, double price,
+	public Microwave(long itemNumber, String brand, double quantity, double wattage, String color, double price,
 			float capacity, String roomType)
 	{
 		super(itemNumber, brand, quantity, wattage, color, price);

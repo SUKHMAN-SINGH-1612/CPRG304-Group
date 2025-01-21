@@ -5,7 +5,7 @@ public abstract class Appliance
 	
 	// Variables or attributes
 	
-	private double itemNumber;
+	private long itemNumber;
 	private String brand;
 	private double quantity;
 	private double wattage;
@@ -14,7 +14,7 @@ public abstract class Appliance
 	
 	// Getters and Setters
 	
-	public double getItemNumber()
+	public long getItemNumber()
 	{
 		return itemNumber;
 	}
@@ -38,7 +38,7 @@ public abstract class Appliance
 	{
 		return price;
 	}
-	public void setItemNumber(double itemNumber)
+	public void setItemNumber(long itemNumber)
 	{
 		this.itemNumber = itemNumber;
 	}
@@ -65,7 +65,7 @@ public abstract class Appliance
 	
 	// Constructor
 	
-	public Appliance(double itemNumber, String brand, double quantity, double wattage, String color, double price)
+	public Appliance(long itemNumber, String brand, double quantity, double wattage, String color, double price)
 	{
 		super();
 		this.itemNumber = itemNumber;
