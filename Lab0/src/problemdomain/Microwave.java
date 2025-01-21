@@ -42,9 +42,9 @@ public class Microwave extends Appliance
 	public String toString()
 	{
 		String typeText;
-		if (roomType == "K")
+		if (roomType.equals("K"))
 		    typeText = "Kitchen";
-		else if (roomType == "W")
+		else if (roomType.equals("W"))
 		    typeText = "Work Site";
 		else
 		    typeText = "Unknown";
