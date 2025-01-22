@@ -42,13 +42,13 @@ public class Dishwasher extends Appliance
 	public String toString()
 	{
         String soundRateText;
-        if (soundRating == "Qt")
+        if (soundRating.equals("Qt"))
             soundRateText = "Quietest";
-        else if (soundRating == "Qr")
+        else if (soundRating.equals("Qr"))
             soundRateText = "Quieter";
-        else if (soundRating == "Qu")
+        else if (soundRating.equals("Qu"))
             soundRateText = "Quiet";
-        else if (soundRating == "M")
+        else if (soundRating.equals("M"))
             soundRateText = "Moderate";
         else
             soundRateText = "Unknown";
