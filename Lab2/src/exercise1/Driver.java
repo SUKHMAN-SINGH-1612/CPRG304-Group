@@ -1,6 +1,7 @@
 package exercise1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Driver
 {
@@ -20,8 +21,22 @@ public class Driver
 		studs.add( new Student( "Anderson", 34 ) );
 		studs.add( new Student( "Moore", 33 ) );
 
-		System.out.println( studs );
-
+        System.out.println( "Original list:" );
+		for (Student s : studs)
+			System.out.println(s);
+		
+		Collections.sort( studs, Student.ageComparator );
+		
+		System.out.println( "\nSorted by age:" );
+		for (Student s : studs)
+			System.out.println(s);
+		
+		Collections.sort( studs, Student::compareTo );
+        
+        System.out.println( "\nSorted by name:" );
+		for (Student s : studs)
+			System.out.println(s);
+				
 	}
 
 }
