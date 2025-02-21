@@ -1,6 +1,8 @@
 package shapes;
 
-public class Cylinder
+import appDomain.Shape;
+
+public class Cylinder extends Shape
 {
 	double height;
 	double radius;

@@ -1,6 +1,8 @@
 package shapes;
 
-public class Pyramid
+import appDomain.Shape;
+
+public class Pyramid extends Shape
 {
 	double height;
 	double side;

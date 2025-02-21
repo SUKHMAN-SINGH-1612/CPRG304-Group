@@ -1,6 +1,8 @@
 package shapes;
 
-public class Cone
+import appDomain.Shape;
+
+public class Cone extends Shape
 {
 	double height;
 	double radius;

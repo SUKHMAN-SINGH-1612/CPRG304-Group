@@ -1,6 +1,8 @@
 package shapes;
 
-public class TriangularPrism
+import appDomain.Shape;
+
+public class TriangularPrism extends Shape
 {
 	double height;
 	double side;

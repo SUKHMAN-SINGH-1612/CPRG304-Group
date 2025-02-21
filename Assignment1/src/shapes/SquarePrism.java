@@ -1,6 +1,8 @@
 package shapes;
 
-public class SquarePrism
+import appDomain.Shape;
+
+public class SquarePrism extends Shape
 {
 	double height;
 	double side;

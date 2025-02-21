@@ -1,6 +1,8 @@
 package shapes;
 
-public class OctagonalPrism
+import appDomain.Shape;
+
+public class OctagonalPrism extends Shape
 {
 	double height;
 	double side;

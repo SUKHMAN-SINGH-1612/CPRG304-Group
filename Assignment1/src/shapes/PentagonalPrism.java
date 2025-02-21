@@ -1,6 +1,8 @@
 package shapes;
 
-public class PentagonalPrism
+import appDomain.Shape;
+
+public class PentagonalPrism extends Shape
 {
 	double height;
 	double side;
