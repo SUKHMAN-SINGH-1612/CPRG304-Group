@@ -1,8 +1,8 @@
-package appDomain;
+package shapeManager;
 
 public abstract class Shape implements Comparable<Shape>
 {
-	// Abstract methods to calculate base area, volume, and height
+	// Abstract methods to calculate base area, volume, and get height
 	
 	public abstract double calcBaseArea();
 	public abstract double calcVolume();

@@ -1,4 +1,4 @@
-package appDomain;
+package shapeManager;
 
 import java.util.Comparator;
 

@@ -1,6 +1,6 @@
 package shapes;
 
-import appDomain.Shape;
+import shapeManager.Shape;
 
 public class SquarePrism extends Shape
 {
