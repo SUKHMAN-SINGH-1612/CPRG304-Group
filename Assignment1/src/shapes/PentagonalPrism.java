@@ -10,6 +10,11 @@ public class PentagonalPrism
 		this.height = height;
 		this.side = side;
 	}
+	
+	public double getHeight()
+    {
+        return height;
+    }
 
 	public double calcBaseArea()
 	{

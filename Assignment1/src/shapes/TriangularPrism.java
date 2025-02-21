@@ -11,6 +11,11 @@ public class TriangularPrism
 		this.side = side;
 	}
 	
+	public double getHeight()
+	{
+		return height;
+	}
+	
 	public double calcBaseArea()
 	{
 		return Math.pow(side, 2) * Math.sqrt(3) / 4;

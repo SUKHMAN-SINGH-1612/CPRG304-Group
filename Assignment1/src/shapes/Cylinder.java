@@ -10,6 +10,11 @@ public class Cylinder
 		this.height = height;
 		this.radius = radius;
 	}
+	
+	public double getHeight()
+	{
+		return height;
+	}
 
 	public double calcVolume()
 	{

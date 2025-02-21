@@ -11,6 +11,11 @@ public class Cone
 		this.radius = radius;
 	}
 	
+	public double getHeight()
+	{
+		return height;
+	}
+	
 	public double calcVolume()
 	{
 		return Math.PI * Math.pow(radius, 2) * height / 3;

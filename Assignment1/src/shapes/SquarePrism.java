@@ -11,6 +11,11 @@ public class SquarePrism
 		this.side = side;
 	}
 	
+	public double getHeight()
+	{
+		return height;
+	}
+	
 	public double calcVolume()
 	{
 		return side * side * height;

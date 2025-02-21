@@ -11,6 +11,11 @@ public class Pyramid
 		this.side = side;
 	}
 	
+	public double getHeight()
+	{
+		return height;
+	}
+	
 	public double calcVolume()
 	{
 		return Math.pow(side, 2) * height / 3;
