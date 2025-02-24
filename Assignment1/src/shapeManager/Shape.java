@@ -11,7 +11,7 @@ public abstract class Shape implements Comparable<Shape>
 	// Implement compareTo method for Comparable interface: compare by height
 	@Override
 	public int compareTo(Shape other) {
-	    return Double.compare(this.getHeight(), other.getHeight());
+	    return Double.compare(other.getHeight(), this.getHeight());
 	}
 }
 

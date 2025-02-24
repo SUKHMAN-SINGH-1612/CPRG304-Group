@@ -3,66 +3,111 @@ package appDomain;
 import java.util.Scanner;
 import shapes.*;
 import shapeManager.*;
+import sortingAlgorithms.SortingUtility; // Assume your sorting algorithms are here
+import java.util.Comparator;
 
-public class AppDriver
-{
+public class AppDriver {
+    public static void main(String[] args) {
+        String fileName = null;
+        String sortType = "b"; // Default to Bubble Sort
+        String compareType = "h"; // Default to height
+        Scanner scanner = new Scanner(System.in);
 
-	public static void main( String[] args )
-	{
-		// TODO Auto-generated method stub
-
-		// refer to demo001 BasicFileIO.java for a simple example on how to
-		// read data from a text file
-
-		// refer to demo01 Test.java for an example on how to parse command
-		// line arguments and benchmarking tests
-
-		// refer to demo02 Student.java for comparable implementation, and
-		// NameCompare.java or GradeCompare for comparator implementations
-
-		// refer to demo02 KittySort.java on how to use a custom sorting
-		// algorithm on a list of comparables to sort using either the
-		// natural order (comparable) or other orders (comparators)
-		
-		String fileName = null;
-	    Scanner scanner = new Scanner(System.in);
-	    
-	    for (int i = 0; i < args.length; i++) {
-            if (args[i].equalsIgnoreCase("-f")) {
-                if (i + 1 < args.length) {
-                    fileName = args[i + 1];
-                    i++; // Skip next argument (filename)
-                } else {
-                    System.out.println("The -f option requires a filename. Please enter the file path:");
-                    fileName = scanner.nextLine().trim();
-                }
-                break; // Stop after finding -f
+        // Parse command line arguments
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i].toLowerCase()) {
+                case "-f":
+                    if (i + 1 < args.length) {
+                        fileName = args[++i];
+                    } else {
+                        System.out.println("The -f option requires a filename. Please enter the file path:");
+                        fileName = scanner.nextLine().trim();
+                    }
+                    break;
+                case "-s":
+                    if (i + 1 < args.length) {
+                        sortType = args[++i].toLowerCase();
+                    }
+                    break;
+                case "-t":
+                    if (i + 1 < args.length) {
+                        compareType = args[++i].toLowerCase();
+                    }
+                    break;
             }
         }
 
-        // If -f not found in args, prompt user
+        // Get filename if not provided
         if (fileName == null) {
             System.out.println("Please enter the file path (use -f <filename> to skip this prompt next time):");
             fileName = scanner.nextLine().trim();
         }
 
-        // Validate filename
-        if (fileName.isEmpty()) {
-            System.err.println("Error: Filename cannot be empty.");
-            System.exit(1);
-        }
-
         try {
+            // Load shapes
             Shape[] shapes = ShapeFileReader.readShapesFromFile(fileName);
             System.out.println("Successfully loaded " + shapes.length + " shapes.");
-            
-            // Proceed to sorting/benchmarking...
-            
+
+            // Create comparator
+            Comparator<Shape> comparator = new ShapeComparator(compareType);
+
+            // Sort and benchmark
+            long startTime = System.nanoTime();
+            switch (sortType) {
+                case "b":
+                    SortingUtility.bubbleSort(shapes, comparator);
+                    break;
+                case "i":
+                    SortingUtility.insertionSort(shapes, comparator);
+                    break;
+                case "s":
+                    SortingUtility.selectionSort(shapes, comparator);
+                    break;
+                case "m":
+                    SortingUtility.mergeSort(shapes, comparator);
+                    break;
+                case "q":
+                    SortingUtility.quickSort(shapes, comparator);
+                    break;
+                case "z": // Your custom sort
+                    SortingUtility.customSort(shapes, comparator);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid sorting algorithm: " + sortType);
+            }
+            long endTime = System.nanoTime();
+            double duration = (endTime - startTime) / 1_000_000.0;
+
+            // Print results
+            printSortedResults(shapes);
+            System.out.printf("%s Sort run time was: %.3f milliseconds%n", 
+                getAlgorithmName(sortType), duration);
+
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             System.exit(1);
         } finally {
             scanner.close();
+        }
+    }
+
+    private static void printSortedResults(Shape[] shapes) {
+        System.out.println("First element: " + shapes[0]);
+        for (int i = 999; i < shapes.length; i += 1000) {
+            System.out.println((i+1) + "-th element: " + shapes[i]);
+        }
+        System.out.println("Last element: " + shapes[shapes.length - 1]);
+    }
+
+    private static String getAlgorithmName(String sortType) {
+        switch (sortType) {
+            case "b": return "Bubble";
+            case "i": return "Insertion";
+            case "s": return "Selection";
+            case "m": return "Merge";
+            case "q": return "Quick";
+            case "z": return "Custom"; // Replace with your algorithm name
+            default: return "Unknown";
         }
     }
 }
