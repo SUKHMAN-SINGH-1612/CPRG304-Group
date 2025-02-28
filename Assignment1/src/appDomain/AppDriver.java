@@ -70,7 +70,7 @@ public class AppDriver {
                     SortingUtility.quickSort(shapes, comparator);
                     break;
                 case "z": // Your custom sort
-                    SortingUtility.customSort(shapes, comparator);
+                    SortingUtility.countingSort(shapes, comparator);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid sorting algorithm: " + sortType);
@@ -106,7 +106,7 @@ public class AppDriver {
             case "s": return "Selection";
             case "m": return "Merge";
             case "q": return "Quick";
-            case "z": return "Custom"; // Replace with your algorithm name
+            case "z": return "Counting"; // Replace with your algorithm name
             default: return "Unknown";
         }
     }
