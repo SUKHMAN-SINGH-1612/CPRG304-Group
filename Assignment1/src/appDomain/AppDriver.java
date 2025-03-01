@@ -1,3 +1,4 @@
+
 package appDomain;
 
 import java.util.Scanner;
@@ -9,7 +10,7 @@ import java.util.Comparator;
 public class AppDriver {
     public static void main(String[] args) {
         String fileName = null;
-        String sortType = "b"; // Default to Bubble Sort
+        String sortType = "q"; // Default to Bubble Sort
         String compareType = "h"; // Default to height
         Scanner scanner = new Scanner(System.in);
 
@@ -45,13 +46,16 @@ public class AppDriver {
 
         try {
             // Load shapes
+            System.out.println("Loading shapes from file: " + fileName);
             Shape[] shapes = ShapeFileReader.readShapesFromFile(fileName);
             System.out.println("Successfully loaded " + shapes.length + " shapes.");
 
             // Create comparator
+            System.out.println("Creating comparator for type: " + compareType);
             Comparator<Shape> comparator = new ShapeComparator(compareType);
 
             // Sort and benchmark
+            System.out.println("Starting sort using algorithm: " + sortType);
             long startTime = System.nanoTime();
             switch (sortType) {
                 case "b":
@@ -79,12 +83,14 @@ public class AppDriver {
             double duration = (endTime - startTime) / 1_000_000.0;
 
             // Print results
+            System.out.println("Sorting completed. Printing results...");
             printSortedResults(shapes);
-            System.out.printf("%s Sort run time was: %.3f milliseconds%n", 
+            System.out.printf("%s Sort run time was: %.3f milliseconds%n",
                 getAlgorithmName(sortType), duration);
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
             System.exit(1);
         } finally {
             scanner.close();

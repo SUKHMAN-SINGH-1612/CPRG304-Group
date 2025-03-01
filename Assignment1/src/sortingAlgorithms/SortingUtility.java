@@ -1,6 +1,7 @@
 
 package sortingAlgorithms;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import shapeManager.Shape;
 
@@ -28,5 +29,9 @@ public class SortingUtility {
 
     public static void countingSort(Shape[] array, Comparator<Shape> comp) {
         CountingSort.sort(array);
+    }
+
+    public static void parallelSort(Shape[] array, Comparator<Shape> comp) {
+        Arrays.parallelSort(array, comp);
     }
 }
