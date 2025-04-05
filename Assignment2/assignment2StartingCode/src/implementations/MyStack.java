@@ -3,6 +3,8 @@ package implementations;
 import utilities.StackADT;
 import utilities.Iterator;
 import java.util.EmptyStackException;
+import java.util.NoSuchElementException;
+import java.util.Arrays;
 
 public class MyStack<E> implements StackADT<E> {
     private MyArrayList<E> stack;
@@ -41,12 +43,30 @@ public class MyStack<E> implements StackADT<E> {
 
     @Override
     public Object[] toArray() {
-        return stack.toArray();
+        Object[] result = new Object[stack.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = stack.get(stack.size() - 1 - i); // Reverse order for LIFO
+        }
+        return result;
     }
 
     @Override
     public E[] toArray(E[] holder) throws NullPointerException {
-        return stack.toArray(holder);
+        if (holder == null) throw new NullPointerException("Array cannot be null");
+        
+        if (holder.length < stack.size()) {
+            holder = Arrays.copyOf(holder, stack.size());
+        }
+        
+        for (int i = 0; i < stack.size(); i++) {
+            holder[i] = stack.get(stack.size() - 1 - i); // Reverse order for LIFO
+        }
+        
+        if (holder.length > stack.size()) {
+            holder[stack.size()] = null;
+        }
+        
+        return holder;
     }
 
     @Override
@@ -56,25 +76,47 @@ public class MyStack<E> implements StackADT<E> {
 
     @Override
     public int search(E toFind) {
-        Object[] data = stack.toArray();
-        for (int i = data.length - 1, pos = 1; i >= 0; i--, pos++) {
-            if (data[i].equals(toFind)) return pos;
+        if (toFind == null) throw new NullPointerException("Cannot search for null");
+        
+        for (int i = stack.size() - 1, pos = 1; i >= 0; i--, pos++) {
+            if (toFind.equals(stack.get(i))) {
+                return pos;
+            }
         }
         return -1;
     }
 
     @Override
     public Iterator<E> iterator() {
-        return stack.iterator();
+        return new StackIterator();
+    }
+
+    private class StackIterator implements Iterator<E> {
+        private int currentIndex = stack.size() - 1; // Start from top
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex >= 0;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if (!hasNext()) throw new NoSuchElementException("No more elements");
+            return stack.get(currentIndex--); // Return top to bottom
+        }
     }
 
     @Override
     public boolean equals(StackADT<E> that) {
         if (this.size() != that.size()) return false;
-        Object[] a = this.toArray();
-        Object[] b = that.toArray();
-        for (int i = 0; i < a.length; i++) {
-            if (!a[i].equals(b[i])) return false;
+        
+        Iterator<E> thisIt = this.iterator();
+        Iterator<E> thatIt = that.iterator();
+        
+        while (thisIt.hasNext()) {
+            if (!thisIt.next().equals(thatIt.next())) {
+                return false;
+            }
         }
         return true;
     }
@@ -86,6 +128,6 @@ public class MyStack<E> implements StackADT<E> {
 
     @Override
     public boolean stackOverflow() {
-        return false; // unbounded implementation
+        return false; // ArrayList-based implementation is unbounded
     }
 }

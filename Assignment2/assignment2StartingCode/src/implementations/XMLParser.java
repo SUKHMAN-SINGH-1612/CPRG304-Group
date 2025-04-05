@@ -2,7 +2,6 @@ package implementations;
 
 import java.io.*;
 import java.util.regex.*;
-import exceptions.EmptyQueueException;
 
 public class XMLParser {
     public static void main(String[] args) {
@@ -13,7 +12,7 @@ public class XMLParser {
 
         String filename = args[0];
         MyStack<String> tagStack = new MyStack<>();
-        MyQueue<String> errorLines = new MyQueue<>();
+        boolean isWellFormed = true;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -23,47 +22,79 @@ public class XMLParser {
                 lineNumber++;
                 line = line.trim();
 
+                // Skip XML declaration, comments, and empty lines
                 if (line.isEmpty() || line.startsWith("<?xml") || line.startsWith("<!--")) {
                     continue;
                 }
 
-                Pattern tagPattern = Pattern.compile("<(/?)(\\w+)[^>]*(/?)>");
+                // Check for malformed opening tag with extra >
+                if (line.matches(".*<[^>]+>[^<]*>.*")) {
+                    String malformedTag = line.replaceAll(".*(<[^>]+>).*", "$1");
+                    System.out.println("Error at line: " + lineNumber + " " + malformedTag + " is not constructed correctly.");
+                    isWellFormed = false;
+                    continue;
+                }
+
+                // Improved regex to handle tags with attributes and self-closing tags
+                Pattern tagPattern = Pattern.compile("<(/?)([A-Za-z][A-Za-z0-9-]*)(\\s+[^>]*?)?(/?)>");
                 Matcher matcher = tagPattern.matcher(line);
 
                 while (matcher.find()) {
-                    String slash = matcher.group(1); // "/" if closing tag
-                    String tag = matcher.group(2);   // tag name
-                    String selfClose = matcher.group(3); // "/" if self-closing
+                    String isClosing = matcher.group(1);
+                    String tagName = matcher.group(2);
+                    String isSelfClosing = matcher.group(4);
 
-                    if (slash.equals("/")) {
-                        if (tagStack.isEmpty() || !tagStack.peek().equals(tag)) {
-                            errorLines.enqueue("Line " + lineNumber + ": Unexpected closing tag </" + tag + ">");
+                    // Skip processing instructions
+                    if (tagName.startsWith("?")) {
+                        continue;
+                    }
+
+                    if (!isSelfClosing.isEmpty()) {
+                        // Self-closing tag - no action needed
+                        continue;
+                    }
+
+                    if (!isClosing.isEmpty()) {
+                        // Closing tag
+                        if (tagStack.isEmpty()) {
+                            System.out.println("Error at line: " + lineNumber + " </" + tagName + "> has no matching opening tag.");
+                            isWellFormed = false;
                         } else {
-                            tagStack.pop();
+                            String expectedTag = tagStack.peek();
+                            if (!expectedTag.equalsIgnoreCase(tagName)) {
+                                System.out.println("Error at line: " + lineNumber + " </" + tagName + "> does not match opening tag <" + expectedTag + ">");
+                                isWellFormed = false;
+                            } else {
+                                tagStack.pop();
+                            }
                         }
-                    } else if (!selfClose.equals("/")) {
-                        tagStack.push(tag);
+                    } else {
+                        // Opening tag
+                        tagStack.push(tagName);
                     }
                 }
-            }
 
-            while (!tagStack.isEmpty()) {
-                errorLines.enqueue("Unclosed tag: <" + tagStack.pop() + ">");
-            }
-
-            if (!errorLines.isEmpty()) {
-                System.out.println("Malformed XML:");
-                while (!errorLines.isEmpty()) {
-                    System.out.println(errorLines.dequeue());
+                // Check for tags that might span multiple lines
+                if (line.contains("<") && !line.contains(">")) {
+                    System.out.println("Error at line: " + lineNumber + " Unclosed tag starting with: " + 
+                                      line.substring(line.indexOf("<")));
+                    isWellFormed = false;
                 }
-            } else {
-                System.out.println("XML is well-formed.");
+            }
+
+            // Check for unclosed tags at end of file
+            while (!tagStack.isEmpty()) {
+                String unclosedTag = tagStack.pop();
+                System.out.println("Error: Unclosed tag <" + unclosedTag + "> at end of file.");
+                isWellFormed = false;
+            }
+
+            if (isWellFormed) {
+                System.out.println("XML document is constructed correctly.");
             }
 
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
-        } catch (EmptyQueueException e) {
-            System.out.println("Queue error: " + e.getMessage());
         }
     }
 }
