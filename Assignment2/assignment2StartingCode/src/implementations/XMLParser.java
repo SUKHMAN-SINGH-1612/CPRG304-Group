@@ -2,8 +2,19 @@ package implementations;
 
 import java.io.*;
 import java.util.regex.*;
+import java.util.Stack;
 
 public class XMLParser {
+    static class TagInfo {
+        String name;
+        int lineNumber;
+
+        TagInfo(String name, int lineNumber) {
+            this.name = name;
+            this.lineNumber = lineNumber;
+        }
+    }
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Usage: java XMLParser <filename.xml>");
@@ -11,7 +22,7 @@ public class XMLParser {
         }
 
         String filename = args[0];
-        MyStack<String> tagStack = new MyStack<>();
+        Stack<TagInfo> tagStack = new Stack<>();
         boolean isWellFormed = true;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -22,75 +33,72 @@ public class XMLParser {
                 lineNumber++;
                 line = line.trim();
 
-                // Skip XML declaration, comments, and empty lines
+                // Skip XML declaration/comments
                 if (line.isEmpty() || line.startsWith("<?xml") || line.startsWith("<!--")) {
                     continue;
                 }
 
-                // Check for malformed opening tag with extra >
-                if (line.matches(".*<[^>]+>[^<]*>.*")) {
-                    String malformedTag = line.replaceAll(".*(<[^>]+>).*", "$1");
-                    System.out.println("Error at line: " + lineNumber + " " + malformedTag + " is not constructed correctly.");
+                // Detect malformed lines with extra '>' (e.g., <Category>>)
+                if (line.matches(".*>[^<]*>.*")) {
+                    System.out.printf("Error at line %d: Malformed tag (extra '>') - \"%s\"%n", lineNumber, line);
                     isWellFormed = false;
-                    continue;
                 }
 
-                // Improved regex to handle tags with attributes and self-closing tags
-                Pattern tagPattern = Pattern.compile("<(/?)([A-Za-z][A-Za-z0-9-]*)(\\s+[^>]*?)?(/?)>");
+                // Improved regex for tags (supports attributes and self-closing)
+                Pattern tagPattern = Pattern.compile("</?([A-Za-z][A-Za-z0-9-]*)(\\s+[^>]*?)?(/?)>");
                 Matcher matcher = tagPattern.matcher(line);
 
                 while (matcher.find()) {
-                    String isClosing = matcher.group(1);
-                    String tagName = matcher.group(2);
-                    String isSelfClosing = matcher.group(4);
+                    String fullTag = matcher.group(0);
+                    String tagName = matcher.group(1);
+                    boolean isClosing = fullTag.startsWith("</");
+                    boolean isSelfClosing = fullTag.endsWith("/>");
 
-                    // Skip processing instructions
-                    if (tagName.startsWith("?")) {
+                    // Handle self-closing tags
+                    if (isSelfClosing) {
+                        if (!fullTag.matches("<\\S+?\\s.*?/>")) { // Validate proper syntax
+                            System.out.printf("Error at line %d: Invalid self-closing tag - \"%s\"%n", lineNumber, fullTag);
+                            isWellFormed = false;
+                        }
                         continue;
                     }
 
-                    if (!isSelfClosing.isEmpty()) {
-                        // Self-closing tag - no action needed
-                        continue;
-                    }
-
-                    if (!isClosing.isEmpty()) {
-                        // Closing tag
+                    // Handle closing tags
+                    if (isClosing) {
                         if (tagStack.isEmpty()) {
-                            System.out.println("Error at line: " + lineNumber + " </" + tagName + "> has no matching opening tag.");
+                            System.out.printf("Error at line %d: Closing tag </%s> with no opening tag%n", lineNumber, tagName);
                             isWellFormed = false;
                         } else {
-                            String expectedTag = tagStack.peek();
-                            if (!expectedTag.equalsIgnoreCase(tagName)) {
-                                System.out.println("Error at line: " + lineNumber + " </" + tagName + "> does not match opening tag <" + expectedTag + ">");
+                            TagInfo expected = tagStack.pop();
+                            if (!expected.name.equals(tagName)) {
+                                System.out.printf("Error at line %d: Mismatched </%s> (expected </%s> opened at line %d)%n",
+                                        lineNumber, tagName, expected.name, expected.lineNumber);
                                 isWellFormed = false;
-                            } else {
-                                tagStack.pop();
                             }
                         }
-                    } else {
-                        // Opening tag
-                        tagStack.push(tagName);
+                    }
+                    // Handle opening tags
+                    else {
+                        tagStack.push(new TagInfo(tagName, lineNumber));
                     }
                 }
 
-                // Check for tags that might span multiple lines
+                // Detect unclosed tag starts
                 if (line.contains("<") && !line.contains(">")) {
-                    System.out.println("Error at line: " + lineNumber + " Unclosed tag starting with: " + 
-                                      line.substring(line.indexOf("<")));
+                    System.out.printf("Error at line %d: Unclosed tag fragment - \"%s\"%n", lineNumber, line);
                     isWellFormed = false;
                 }
             }
 
-            // Check for unclosed tags at end of file
+            // Report remaining unclosed tags
             while (!tagStack.isEmpty()) {
-                String unclosedTag = tagStack.pop();
-                System.out.println("Error: Unclosed tag <" + unclosedTag + "> at end of file.");
+                TagInfo unclosed = tagStack.pop();
+                System.out.printf("Error: Unclosed <%s> opened at line %d%n", unclosed.name, unclosed.lineNumber);
                 isWellFormed = false;
             }
 
             if (isWellFormed) {
-                System.out.println("XML document is constructed correctly.");
+                System.out.println("XML is well-formed");
             }
 
         } catch (IOException e) {
