@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Run BSTreeTest JUnit",
+        "request": "launch",
+        "mainClass": "org.junit.runner.JUnitCore",
+        "args": [
+          "unitTests.BSTreeTest"
+        ],
+        "cwd": "${workspaceFolder}/src",
+        "classPaths": [
+          "${workspaceFolder}/src",
+          "${workspaceFolder}/lib/junit-4.13.2.jar",
+          "${workspaceFolder}/lib/hamcrest-core-1.3.jar"
+        ]
+      }
+    ]
+  }
+  
