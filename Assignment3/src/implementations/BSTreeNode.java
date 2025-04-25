@@ -1,5 +1,7 @@
 package implementations;
 
+import java.io.Serializable;
+
 /********************************************************************
  * BSTreeNode - Node class for Binary Search Tree
  * 
@@ -8,21 +10,21 @@ package implementations;
  * @version Assignment 3
  ********************************************************************/
 
-
-public class BSTreeNode<E extends Comparable<? super E>> 
+public class BSTreeNode<E extends Comparable<? super E>> implements Serializable
 {
-    private E data;
+    private static final long serialVersionUID = 1L;
+    private E element;
     private BSTreeNode<E> left;
     private BSTreeNode<E> right;
 
     /********************************************************************
      * Constructor - creates a new BST node with given data
      * 
-     * @param data - element to store in node
+     * @param element - element to store in node
      ********************************************************************/
-    public BSTreeNode(E data) 
+    public BSTreeNode(E element) 
     {
-        this.data = data;
+        this.element = element;
         this.left = null;
         this.right = null;
     }
@@ -35,18 +37,18 @@ public class BSTreeNode<E extends Comparable<? super E>>
      ********************************************************************/
     public E getElement() 
     {
-        return data;
+        return element;
     }
 
     /********************************************************************
      * setElement() - updates the data stored in this node
      * 
-     * @param data - new data to store
+     * @param element - new data to store
      * @return void
      ********************************************************************/
-    public void setElement(E data) 
+    public void setElement(E element) 
     {
-        this.data = data;
+        this.element = element;
     }
 
     /********************************************************************
