@@ -1,0 +1,12 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-1.8",
+            "path": "E:\\JDK\\java-1.8.0-openjdk-1.8.0.392-1.b08.redhat.windows.x86_64",
+            "default": true
+        }
+    ],
+    "java.home": "E:\\JDK\\java-1.8.0-openjdk-1.8.0.392-1.b08.redhat.windows.x86_64",
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-23.0.1"
+} 
